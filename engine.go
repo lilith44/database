@@ -45,7 +45,7 @@ func (d *Database) Transaction(f func(*xorm.Session) (any, error)) (any, error) 
 // Insert 插入多条数据
 func (d *Database) Insert(session *xorm.Session, beans ...easy.Model) (int64, error) {
 	for _, bean := range beans {
-		if bean.PK() == 0 {
+		if bean.UseSnowflakeIdAsDefault() && bean.PK() == 0 {
 			bean.SetPK(d.snowflake.NextId())
 		}
 	}
